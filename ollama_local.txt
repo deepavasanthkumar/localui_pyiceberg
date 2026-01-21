@@ -1,0 +1,31 @@
+curl -fsSL https://ollama.com/install.sh | sh
+
+ollama pull llama3
+# or
+ollama pull mistral
+
+ollama serve
+
+check http://localhost:11434
+
+import requests
+
+resp = requests.post(
+    "http://localhost:11434/api/generate",
+    json={
+        "model": "llama3",
+        "prompt": "Explain pipeline failures",
+        "stream": False
+    }
+)
+
+print(resp.json()["response"])
+
+
+import ollama
+
+ollama.generate(
+    model="llama3",
+    prompt="Summarize pipeline health"
+)
+
