@@ -1,0 +1,39 @@
+flowchart TD
+    AF[Airflow DAG Run] --> PCS[Control Service]
+
+    PCS --> O1[Orders Ingestion]
+    PCS --> C1[Customers Ingestion]
+    PCS --> P1[Payments Ingestion]
+
+    O1 --> O2[Orders Validation]
+    O2 --> O3[Orders Bronze]
+    O3 --> O4[Orders Silver]
+    O4 --> O5[Orders Gold]
+
+    C1 --> C2[Customers Validation]
+    C2 --> C3[Customers Bronze]
+    C3 --> C4[Customers Silver]
+    C4 --> C5[Customers Gold]
+
+    P1 --> P2[Payments Validation]
+    P2 --> P3[Payments Bronze]
+    P3 --> P4[Payments Silver]
+    P4 --> P5[Payments Gold]
+
+    O1 -.-> PG[(Postgres)]
+    O2 -.-> PG
+    O3 -.-> PG
+    O4 -.-> PG
+    O5 -.-> PG
+
+    C1 -.-> PG
+    C2 -.-> PG
+    C3 -.-> PG
+    C4 -.-> PG
+    C5 -.-> PG
+
+    P1 -.-> PG
+    P2 -.-> PG
+    P3 -.-> PG
+    P4 -.-> PG
+    P5 -.-> PG
