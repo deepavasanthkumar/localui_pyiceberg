@@ -1,0 +1,31 @@
+flowchart LR
+    U[Users and Schedulers] --> AF[Apache Airflow]
+
+    AF -->|HTTP fan out| PCS[Python Control Service]
+
+    PCS -->|Write metadata| PG[(Postgres Metadata DB)]
+
+    PCS -->|Create SparkApplication| K8S[Kubernetes Spark Operator]
+
+    subgraph SparkOnK8s
+        SJ1[Ingestion Job]
+        SJ2[Validation Job]
+        SJ3[Bronze Job]
+        SJ4[Silver Job]
+        SJ5[Gold Job]
+
+        SJ1 --> SJ2 --> SJ3 --> SJ4 --> SJ5
+    end
+
+    K8S --> SJ1
+
+    SJ1 --> ICE[Iceberg on MinIO]
+    SJ3 --> ICE
+    SJ4 --> ICE
+    SJ5 --> ICE
+
+    SJ1 --> PG
+    SJ2 --> PG
+    SJ3 --> PG
+    SJ4 --> PG
+    SJ5 --> PG
