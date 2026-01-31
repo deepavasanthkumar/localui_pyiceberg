@@ -1,0 +1,15 @@
+stateDiagram-v2
+    [*] --> Ingestion
+    Ingestion --> Validation
+    Validation --> Bronze
+    Bronze --> Silver
+    Silver --> Gold
+    Gold --> Completed
+
+    Ingestion --> Failed
+    Validation --> Failed
+    Bronze --> Failed
+    Silver --> Failed
+    Gold --> Failed
+
+    Failed --> Ingestion
